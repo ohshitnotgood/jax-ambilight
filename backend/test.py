@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw
-from colour import get_vertical_colours
+from colour import edge_colours
 import time
 
 def draw(c):
@@ -20,6 +20,6 @@ def draw(c):
         
 if __name__ == "__main__":
     time.sleep(2)
-    co = get_vertical_colours(8, 4, "bottom")
+    co = edge_colours(8, 4, "bottom")
     draw(co)
     
