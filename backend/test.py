@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw
-from colour import top_zone_colours
+from colour import get_vertical_colours
+import time
 
 def draw(c):
     out = Image.new("RGB", (120, 30), (255, 255, 255))
@@ -18,6 +19,7 @@ def draw(c):
         
         
 if __name__ == "__main__":
-    co = top_zone_colours(8, 4)
+    time.sleep(2)
+    co = get_vertical_colours(8, 4, "bottom")
     draw(co)
     

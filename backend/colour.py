@@ -3,20 +3,18 @@ import mss
 import jax.numpy as jnp
 sct = mss.mss()
 
-def top_zone_colours(n_hor_zones, n_vert_zones):
+def get_vertical_colours(n_hor_zones, n_vert_zones, screen_side="top"):
     """
     Returns the average colours in each of the zones that are on the top of the screen
     
     Output is always going to be an RGB array
-    
-    TODO: fix reshaping errors for different screen sizes
     """
     for _, monitor in enumerate(sct.monitors[1:], 1):
 
         sct_img = sct.grab(monitor)
         
         # width of the screen in pixels
-        width = sct_img.size.width                              
+        width = sct_img.size.width
         
         # height of the screen in pixels
         height = sct_img.size.height                            
@@ -28,25 +26,37 @@ def top_zone_colours(n_hor_zones, n_vert_zones):
         zone_width = int(width / n_vert_zones)                  
         
         # entire screen as a JAX array
-        img = jnp.array(sct_img)          
-                     
+        img = jnp.array(sct_img)         
+        print(height, width) 
+        print(zone_height, zone_width)
+        print(img.shape)
         
         # Only zones that are on the top of the screen.
         # img_trunc should now have the shape (zone_height, width, 4) where zone_height
         # denotes the number of lines there are in each zone.
-        img_trunc = img[0:zone_height]
+        if screen_side == "top":
+            img_trunc = img[0:zone_height]
+        elif screen_side == "bottom":
+            img_trunc = img[height-zone_height:height-1]
+        else: raise TypeError("screen_side must be either top or bottom")
         
+        print(img_trunc.shape)
         # Sum all the pixels on each line across each of the colour channels
-        img_line_avg = jnp.average(img_trunc, (1))
+        img_line_avg = jnp.average(img_trunc, (0))
         
         # Reshape the image matrix into 4 zones.
-        img_reshaped = jnp.reshape(img_line_avg, (int(zone_height / n_vert_zones), 4, 4))
+        img_reshaped = jnp.reshape(img_line_avg, (n_vert_zones, zone_width, 4))
         
         # Get the average colour in each zone.
         img_zone_avg = jnp.average(img_reshaped, (1))
         
-        return _convert_brga_array_to_rgb_array(img_zone_avg)
+        
+        # Convert colour from BRGA to RGB
+        r = _convert_brga_array_to_rgb_array(img_zone_avg)
     
+        print(r)
+        
+        return r
     
 def _convert_brga_array_to_rgb_array(jax_ar):
     """
@@ -55,7 +65,12 @@ def _convert_brga_array_to_rgb_array(jax_ar):
     out = []
     
     for each in jax_ar:
-        col = [int(each[1]), int(each[2]), int(0)]
+        print(each)
+        col = [int(each[1]), int(each[2]), int(each[0])]
         out.append(col)
         
     return out
+
+
+if __name__ == "__main__":
+    get_vertical_colours(4, 8, "top")
