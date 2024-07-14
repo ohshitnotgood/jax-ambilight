@@ -29,6 +29,7 @@ class USocket:
     def close_connection(self):
         "Closes the socket."
         self.server.close()
+        os.unlink(server_addr)
         
         
         
