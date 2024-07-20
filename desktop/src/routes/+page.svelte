@@ -1,10 +1,13 @@
  <script lang="ts">
+    import * as IPCClient from "../components/ipc";
+
     const availableHeightZones = [2, 3, 4, 5, 6];
     const availableWidthZones = [4, 5, 6, 7, 8];
 
     let nWidthZones = 6;
     let nHeightZones = 4;
-    let monitor = "Select monitor";
+    let monitor = "Select monitor";        
+    let colourList: string[][] = [];
 
     /**
      * Returns a list of available monitors
@@ -13,12 +16,19 @@
         return ["Monitor 1", "Monitor 2"];
     }
 
+    function startUpRoutine() {
+        IPCClient.createIPCClient()
+        IPCClient.onMessageReceived((data: any) => {
+            
+        })
+    }
+
     function getRandomRGBColour() {
         return `background-color: rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
     }
 
     function getTestColours(widthZones: number, heightZones: number) {
-        let colourList = [];
+
 
         let widthList = [];
         for (let i = 0; i < widthZones; i++) {

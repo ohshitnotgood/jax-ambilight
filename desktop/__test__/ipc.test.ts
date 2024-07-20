@@ -6,7 +6,7 @@ describe("Test IPC from NodeJS", () => {
         IPCClient.createIPCClient()
     })
 
-    test("Run a Python script from NodeJS", async () => {
+    test("Connecting to a IPC server", async () => {
         IPCClient.onMessageReceived((data: any) => {
             expect(data).toBe("hello world")
         })
