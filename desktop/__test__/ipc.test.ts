@@ -1,16 +1,14 @@
-import { exec } from "node:child_process"
-import { sendMessage, connect } from "../src/components/ipc"
+import { exec, spawn } from "node:child_process"
+import *  as IPCClient from "../src/components/ipc"
 
-
-describe("IPC over Unix sockets", () => {
-    test("Run simple terminal command within NodeJS", () => {
-        exec("echo hello world", (err, stdout, stderr) => {
-            expect(stdout).toBe("hello world\n")
-        })
+describe("Test IPC from NodeJS", () => {
+    beforeAll(() => {
+        IPCClient.createIPCClient()
     })
 
-    // test("Establishing basic connection with Python process", () => {
-    //     const socket = connect()
-    //     console.log(socket.address)
-    // })
+    test("Run a Python script from NodeJS", async () => {
+        IPCClient.onMessageReceived((data: any) => {
+            expect(data).toBe("hello world")
+        })
+    })
 })
