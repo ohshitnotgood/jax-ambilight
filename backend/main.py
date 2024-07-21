@@ -1,4 +1,4 @@
-from colour import edge_colours
+from backend.cc_colour import edge_colours
 from usocket import USocket
 
 def main():

@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw
-from colour import edge_colours
+from cc_colour import edge_colours
 import time
 
 def draw(c):
