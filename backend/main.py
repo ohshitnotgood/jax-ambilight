@@ -1,12 +1,12 @@
-from backend.cc_colour import edge_colours
+from cc_colour import c_colours
 from usocket import USocket
 
 def main():
     sock_server = USocket()
     try:
         while True:
-            top = edge_colours(8, 4, "top")
-            sock_server.send_message(top)
+            colours = c_colours(n_height_zones=4, n_width_zones=8)
+            sock_server.send_message(colours)
     except:
         sock_server.close_connection()
 
