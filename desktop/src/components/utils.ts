@@ -33,6 +33,17 @@ export function tuple2List(inp: string) {
     return inp.match(/\d+/g)
 }
 
+/**
+ * 
+ * The returned data is a list of list of strings, meaning each element contains a list of strings.
+ * 
+ * Each of those elements represents a section of the screen. They are in the following order: 0 - top, 1 - bottom, 2 - left, 3 - right.
+ * 
+ * Each element within each section represents the CSS styling for a particular zone. This colour can be directly applied to the frontend preview. 
+ * 
+ * @param string Data that is received from the backend
+ * @returns A list of CSS styles for each zone
+ */
 export function parseBackendData(string: string): string[][] {
     const a = string2List(string)
     let out_a: string[][] = []
