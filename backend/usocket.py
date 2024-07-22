@@ -12,6 +12,8 @@ class USocket:
     """
     
     def __init__(self, server_address=server_addr, verbose=False) -> None:
+        # Check if the socket address has already been created because of a previous run
+        if os.path.exists(server_address): os.remove(path=server_address)
         self.verbose = verbose
         self.server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.server.bind(server_address)
@@ -29,7 +31,7 @@ class USocket:
         if self.verbose: print("Message sent (to all clients)")
         
         
-    def wait_for_message(self, callback):
+    def run_on_message_received(self, callback):
         "Freezes the thread and waits until a message is returned from the client"
         self.server, _ = self.server.accept()
         callback()
@@ -44,10 +46,14 @@ class USocket:
         
         
     def echo(self):
-        # self.server.listen()
-        # self.server, _ = self.server.accept()
+        "Receives a message from a client and sends back those messages to all clients."
         data = str(self.server.recv(1024).decode("utf-8"))
         self.server.sendall(data.encode())
+        
+        
+    def wait_for_incoming_msg(self) -> str:
+        "Returns any messages that may have been received"
+        return str(self.server.recv(1024).decode("utf-8"))
         
         
         

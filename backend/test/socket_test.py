@@ -1,3 +1,5 @@
+"Unit test to test message passing using IPC"
+
 from usocket import USocket
 import unittest
 import socket
