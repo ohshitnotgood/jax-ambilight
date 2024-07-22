@@ -19,18 +19,19 @@
 
     function startUpRoutine() {
         IPCClient.createIPCClient()
-        IPCClient.onMessageReceived((data: any) => {
-            colourList = utils.stringToListList(data)
+        IPCClient.onMessageReceived((data: string) => {
+            colourList = utils.parseBackendData(data)
+            IPCClient.sendMessage("ack_ok")
         })
+        IPCClient.sendMessage("ack_ok")
     }
+
 
     function getRandomRGBColour() {
         return `background-color: rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`
     }
 
     function getTestColours(widthZones: number, heightZones: number) {
-
-
         let widthList = [];
         for (let i = 0; i < widthZones; i++) {
             widthList.push(getRandomRGBColour());
@@ -57,9 +58,16 @@
 
         return colourList;
     }
+
+    colourList = getTestColours(8, 4)
 </script>
 
 <main class="grid place-content-center">
+
+    <button on:click={startUpRoutine}>
+        Connect to server
+    </button>
+
     <controls class="grid grid-cols-[1fr_2fr] place-content-center">
         <labels class="block text-right p-4">
             <div class="pt-1.5 pb-1">Select monitor</div>
@@ -110,24 +118,24 @@
     <preview class="block p-4">
         <div class="flex mx-[50px] w-[384px]">
             {#each { length: nWidthZones } as _, i}
-                <width-zone style={getTestColours(nWidthZones, nHeightZones)[0][i]}/>
+                <width-zone style={colourList[0][i]}/>
             {/each}
         </div>
         <div class="flex justify-between">
             <div class="flex flex-col h-[218px]">
                 {#each { length: nHeightZones } as _, i}
-                    <height-zone style={getTestColours(nWidthZones, nHeightZones)[1][i]} />
+                    <height-zone style={colourList[1][i]} />
                 {/each}
             </div>
             <div class="flex flex-col h-[218px]">
                 {#each { length: nHeightZones } as _, i}
-                    <height-zone style={getTestColours(nWidthZones, nHeightZones)[2][i]}/>
+                    <height-zone style={colourList[2][i]}/>
                 {/each}
             </div>
         </div>
         <div class="flex mx-[50px] w-[384px]">
             {#each { length: nWidthZones } as _, i}
-                <width-zone style={getTestColours(nWidthZones, nHeightZones)[3][i]}/>
+                <width-zone style={colourList[3][i]}/>
             {/each}
         </div>
     </preview>
