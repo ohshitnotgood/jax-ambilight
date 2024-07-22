@@ -1,5 +1,6 @@
  <script lang="ts">
     import * as IPCClient from "../components/ipc";
+    import * as utils from "../components/utils"
 
     const availableHeightZones = [2, 3, 4, 5, 6];
     const availableWidthZones = [4, 5, 6, 7, 8];
@@ -19,7 +20,7 @@
     function startUpRoutine() {
         IPCClient.createIPCClient()
         IPCClient.onMessageReceived((data: any) => {
-            
+            colourList = utils.stringToListList(data)
         })
     }
 
