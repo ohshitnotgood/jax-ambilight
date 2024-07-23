@@ -1,15 +1,13 @@
-// Prevents additional console window on Windows in release, DO NOT REMOVE!!
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+use std::os::unix::net::UnixStream;
+use std::io::prelude::*;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
-fn main() {
-    tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+fn main() -> std::io::Result<()> {
+    let mut client = UnixStream::connect("/tmp/jr.sock").unwrap();
+    client.write_all(b"kill_srvr")?;
+    println!("Send message");
+    let mut buff = [0; 1024];
+    let count = client.read(&mut buff).unwrap();
+    let response = String::from_utf8(buff[..count].to_vec()).unwrap();
+    println!("{response}");
+    Ok(())
 }
