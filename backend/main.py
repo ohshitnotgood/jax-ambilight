@@ -13,18 +13,22 @@ class MainController:
         self.server = USocket(verbose=self.verbose)
         
     def message_loop(self):
-        msg = self.server.wait_for_incoming_msg()
-        print(f"Received message {msg}")
-        if msg == "kill_srvr":
-            self.server.send_message("kill_srvr")
+        try:
+            msg = self.server.wait_for_incoming_msg()
+            print(f"Received message {msg}")
+            if msg == "kill_srvr":
+                self.server.send_message("kill_srvr")
+                self.server.close_connection()
+            elif msg == "ack_ok":
+                screen_colours = c_colours(n_height_zones=4, n_width_zones=8)
+                self.server.send_message(str(screen_colours).encode())
+                self.message_loop()
+            else:
+                self.server.send_message(msg)
+                self.message_loop()
+        except KeyboardInterrupt or BrokenPipeError:
+            if self.verbose: print("Encountered KeyboardInterrupt or client disconnected, closing server")
             self.server.close_connection()
-        elif msg == "ack_ok":
-            screen_colours = c_colours(n_height_zones=4, n_width_zones=8)
-            self.server.send_message(str(screen_colours).encode())
-            self.message_loop()
-        else:
-            self.server.send_message(msg)
-            self.message_loop()
         
 
 if __name__ == "__main__":

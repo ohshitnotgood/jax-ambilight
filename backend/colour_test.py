@@ -33,8 +33,8 @@ def create_test_image(width=2560, height=1440, n_width_zones=8, n_height_zones=4
         imgd.rectangle(rect_dims, fill=colours[3][i])
         
     
-    
-    return test_img
+    test_img.save("test.png") 
+    # return test_img
     
 
 def generate_zone_colours(n_width_zones=8, n_height_zones=4):
@@ -77,4 +77,5 @@ class ColourTestClass(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main
+    # unittest.main
+    create_test_image()

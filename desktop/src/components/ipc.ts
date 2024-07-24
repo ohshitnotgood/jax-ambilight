@@ -19,12 +19,22 @@ export function connect() {
     return message
 }
 
+/**
+ * Connects to an Unix socket server.
+ * @param path Path to the syslink file
+ */
 export function createIPCClient(path="/tmp/jr.sock") {
     client = net.createConnection(path)
     client = client.setEncoding("utf-8")
 }
 
 
+/**
+ * Sends a message to the client. This function does not wait for a response.
+ * 
+ * To run code when a response is received, call `onMessageReceived`.
+ * @param message Message to be sent
+ */
 export function sendMessage(message: string) {
     client.write(message)
 }
