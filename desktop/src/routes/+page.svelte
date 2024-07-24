@@ -19,56 +19,34 @@
         return ["Monitor 1", "Monitor 2"];
     }
 
-    async function startUpRoutine() {
-        let ipcResponse: string = await invoke(
-            "write_and_wait_for_response_blocking",
-            { message: "ack_ok" },
-        );
-        ipcResponse = ipcResponse.replaceAll("'", "");
-        ipcResponse.slice(1);
-        colourList = utils.parseBackendData(ipcResponse);
-        isDataReady = true;
-        console.log(colourList);
+    // async function startUpRoutine() {
+    //     let ipcResponse: string = await invoke(
+    //         "write_and_wait_for_response_blocking",
+    //         { message: "ack_ok" },
+    //     );
+    //     ipcResponse = ipcResponse.replaceAll("'", "");
+    //     ipcResponse.slice(1);
+    //     colourList = utils.parseBackendData(ipcResponse);
+    //     isDataReady = true;
+    //     console.log(colourList);
+    // }
+
+    async function startPreview() {
+        setInterval(async () => {
+            let ipcResponse: string = await invoke(
+                "write_and_wait_for_response_blocking",
+                { message: "ack_ok" },
+            );
+            ipcResponse = ipcResponse.replaceAll("'", "");
+            ipcResponse.slice(1);
+            colourList = utils.parseBackendData(ipcResponse);
+            isDataReady = true;
+        }, 100);
     }
-
-    // function getRandomRGBColour() {
-    //     return `background-color: rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
-    // }
-
-    // function getTestColours(
-    //     widthZones: number,
-    //     heightZones: number,
-    // ): string[][] {
-    //     let widthList = [];
-    //     for (let i = 0; i < widthZones; i++) {
-    //         widthList.push(getRandomRGBColour());
-    //     }
-    //     colourList.push(widthList);
-
-    //     let heightList = [];
-    //     for (let i = 0; i < heightZones; i++) {
-    //         heightList.push(getRandomRGBColour());
-    //     }
-    //     colourList.push(heightList);
-
-    //     heightList = [];
-    //     for (let i = 0; i < heightZones; i++) {
-    //         heightList.push(getRandomRGBColour());
-    //     }
-    //     colourList.push(heightList);
-
-    //     widthList = [];
-    //     for (let i = 0; i < widthZones; i++) {
-    //         widthList.push(getRandomRGBColour());
-    //     }
-    //     colourList.push(widthList);
-
-    //     return colourList;
-    // }
 </script>
 
 <main class="grid place-content-center">
-    <button on:click={startUpRoutine}> Connect to server </button>
+    <button on:click={startPreview}> Connect to server </button>
 
     <controls class="grid grid-cols-[1fr_2fr] place-content-center">
         <labels class="block text-right p-4">
