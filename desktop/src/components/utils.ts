@@ -53,7 +53,7 @@ export function parseBackendData(string: string): string[][] {
         let out_b: string[] = []
         b?.forEach((each_b) => {
             const c = tuple2List(each_b)
-            let out_c: string = `background-colour: rgb(${c![0]}, ${c![1]}, ${c![2]})`
+            let out_c: string = `background-color: rgb(${c![0]}, ${c![1]}, ${c![2]})`
             out_b.push(out_c)
         })
         out_a.push(out_b)
