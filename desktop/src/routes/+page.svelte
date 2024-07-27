@@ -19,18 +19,6 @@
         return ["Monitor 1", "Monitor 2"];
     }
 
-    // async function startUpRoutine() {
-    //     let ipcResponse: string = await invoke(
-    //         "write_and_wait_for_response_blocking",
-    //         { message: "ack_ok" },
-    //     );
-    //     ipcResponse = ipcResponse.replaceAll("'", "");
-    //     ipcResponse.slice(1);
-    //     colourList = utils.parseBackendData(ipcResponse);
-    //     isDataReady = true;
-    //     console.log(colourList);
-    // }
-
     async function startPreview() {
         setInterval(async () => {
             let ipcResponse: string = await invoke(
