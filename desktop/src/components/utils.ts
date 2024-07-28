@@ -60,3 +60,24 @@ export function parseBackendData(string: string): string[][] {
     })
     return out_a
 }
+
+export function parseBackendDataAndCSSGradient(string: string): string[] {
+    const a = string2List(string)
+    let out_a: string[] = []
+    let count = 0
+    
+    a?.forEach((each_a) => {
+        const b = tupleList2List(each_a)
+        let direction = count < 2 ? "right" : "bottom"
+        let out_b: string = `background-image: linear-gradient(to ${direction}, `
+        b?.forEach((each_b) => {
+            const c = tuple2List(each_b)
+            out_b += `rgb(${c![0]}, ${c![1]}, ${c![2]}),`
+        })
+        out_b = out_b.slice(0, -1)
+        out_b += ")"
+        out_a.push(out_b)
+        count++
+    })
+    return out_a
+}
