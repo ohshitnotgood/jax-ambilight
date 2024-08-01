@@ -12,6 +12,32 @@ class MainController:
         self.verbose = parser.parse_args().verbose
         self.server = USocket(verbose=self.verbose)
         
+    def main_loop(self):
+        self.server.wait_for_client()
+        while True:
+            try:
+                msg = self.server.wait_for_incoming_msg()
+                if self.verbose: print(f"Received message {msg}")
+                if msg == "kill_srvr":
+                    self.server.send_message("kill_srvr")
+                    self.server.close_connection()
+                    self.server.wait_for_client()
+                elif msg == "1001":
+                    self.server.send_message("1001")
+                    self.server.kill_server()
+                    break
+                elif msg == "ack_ok":
+                    screen_colours = c_colours(n_height_zones=4, n_width_zones=8)
+                    self.server.send_message(str(screen_colours).encode())
+                else:
+                    self.server.send_message(msg)
+            except BrokenPipeError:
+                self.server.close_connection()
+                self.server.wait_for_client()
+            except KeyboardInterrupt:
+                self.server.kill_server()
+                break
+        
     def message_loop(self):
         try:
             while True:
@@ -32,4 +58,4 @@ class MainController:
 
 if __name__ == "__main__":
     mc = MainController()
-    mc.message_loop()
+    mc.main_loop()

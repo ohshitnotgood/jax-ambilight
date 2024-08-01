@@ -18,42 +18,38 @@ class USocket:
         self.server = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.server.bind(server_address)
         self.server.listen()
-        if self.verbose: print("listening for incoming signals")
-        self.server, _ = self.server.accept()
-        if self.verbose: print("received connection")
+        self.client_connected = False
         
+        
+    def wait_for_client(self):
+        if self.verbose: print("listening for incoming signals")
+        self._server, _ = self.server.accept()
+        self.client_connected = True
+        if self.verbose: print("received connection")
     
     def send_message(self, data: list):
         "Sends a message to all connected clients"
         data = str(data).encode()
         if self.verbose: print("Sending message to all clients")
-        self.server.sendall(data)
+        self._server.sendall(data)
         if self.verbose: print("Message sent (to all clients)")
-        
-        
-    def run_on_message_received(self, callback):
-        "Freezes the thread and waits until a message is returned from the client"
-        self.server, _ = self.server.accept()
-        callback()
-        pass
     
+    
+    def kill_server(self):
+        "Kills the server, making it unable to accept new requests."
+        self._server.close()
+        self.server.close()
+        os.remove("/tmp/jr.sock")
     
     def close_connection(self):
-        "Closes the socket."
-        self.server.close()
-        os.unlink(server_addr)
-        if self.verbose: print("Closed server")
-        
-        
-    def echo(self):
-        "Receives a message from a client and sends back those messages to all clients."
-        data = str(self.server.recv(1024).decode("utf-8"))
-        self.server.sendall(data.encode())
-        
+        "Closes a socket connection making server available to receive another client."
+        self._server.close()
+        self.client_connected = False
+        if self.verbose: print("Client socket closed")
         
     def wait_for_incoming_msg(self) -> str:
         "Returns any messages that may have been received"
-        return str(self.server.recv(1024).decode("utf-8"))
+        return str(self._server.recv(1024).decode("utf-8"))
         
         
         
