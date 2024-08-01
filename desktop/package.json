@@ -10,11 +10,13 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "tauri": "tauri",
-    "test": "jest"
+    "test": "jest",
+    "prod": "export WEBKIT_DISABLE_DMABUF_RENDERER=1; concurrently \"/home/praanto/Projects/jax-ambilight/backend/.backend/bin/python /home/praanto/Projects/jax-ambilight/backend/main.py -v\" \"tauri dev\""
   },
   "license": "MIT",
   "dependencies": {
     "@tauri-apps/api": "^1",
+    "concurrently": "^8.2.2",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

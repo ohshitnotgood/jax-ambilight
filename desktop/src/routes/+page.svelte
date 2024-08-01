@@ -1,6 +1,7 @@
 <script lang="ts">
     import { invoke } from "@tauri-apps/api/tauri";
     import * as utils from "../components/utils";
+    import { Command } from "@tauri-apps/api/shell";
 
     const availableHeightZones = [2, 3, 4, 5, 6];
     const availableWidthZones = [4, 5, 6, 7, 8];
@@ -13,6 +14,7 @@
     $: gradientList = [""];
     $: isDataReady = false;
     $: useGradientPreview = false;
+    $: output = "none"
 
     /**
      * Returns a list of available monitors
@@ -33,6 +35,13 @@
             gradientList = utils.parseBackendDataAndCSSGradient(ipcResponse);
             isDataReady = true;
         }, 100);
+    }
+
+    async function testRunningCommands() {
+        console.log("Working")
+        const command = new Command("run-touch", "/home/praanto/file.file")
+        command.stdout.on("data", line => console.log(line))
+        await command.execute()
     }
 </script>
 
