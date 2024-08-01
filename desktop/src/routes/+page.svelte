@@ -2,6 +2,7 @@
     import { invoke } from "@tauri-apps/api/tauri";
     import * as utils from "../components/utils";
     import { Command } from "@tauri-apps/api/shell";
+    import { appWindow } from "@tauri-apps/api/window";
 
     const availableHeightZones = [2, 3, 4, 5, 6];
     const availableWidthZones = [4, 5, 6, 7, 8];
@@ -14,14 +15,6 @@
     $: gradientList = [""];
     $: isDataReady = false;
     $: useGradientPreview = false;
-    $: output = "none"
-
-    /**
-     * Returns a list of available monitors
-     */
-    async function getMonitors() {
-        return ["Monitor 1", "Monitor 2"];
-    }
 
     async function startPreview() {
         setInterval(async () => {
@@ -37,6 +30,14 @@
         }, 100);
     }
 
+
+    async function onZoneNumberChange() {
+        await invoke(
+            "write_and_wait_for_response_blocking",
+            { message: `chg_v:${nHeightZones};${nWidthZones}`},
+        );
+    }
+
     async function testRunningCommands() {
         console.log("Working")
         const command = new Command("run-touch", "/home/praanto/file.file")
@@ -46,15 +47,19 @@
 </script>
 
 <main class="grid place-content-center w-screen h-screen">
-    <connect class="block text-center">
-        <button on:click={startPreview}> Connect to backend </button>
-    </connect>
+    {#if !isDataReady}
+        <connect class="block text-center">
+            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" on:click={startPreview}> 
+                Connect to backend 
+            </button>
+        </connect>
+    {/if}
 
     {#if isDataReady}
         <controls class="grid grid-cols-2 gap-x-5 gap-y-2 text-right">
             <div>Width zones</div>
             <div>
-                <select
+                <select on:change={onZoneNumberChange}
                     bind:value={nWidthZones}
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md block px-4 py-1"
                 >
@@ -66,6 +71,7 @@
             <div>Height zones</div>
             <div>
                 <select
+                    on:change={onZoneNumberChange}
                     bind:value={nHeightZones}
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md block px-4 py-1"
                 >

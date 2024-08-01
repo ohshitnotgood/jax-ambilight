@@ -45,7 +45,7 @@ class MainController:
             msg = msg[6:]
             msg = msg.split(";")
             self.n_height_zones = msg[0]
-            self.n_height_zones = msg[1]
+            self.n_width_zones = msg[1]
     
 
 if __name__ == "__main__":
