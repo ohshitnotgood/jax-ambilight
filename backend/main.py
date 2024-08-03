@@ -24,6 +24,8 @@ class MainController:
                     self.server.send_message("kill_srvr")
                     self.server.close_connection()
                     self.server.wait_for_client()
+                elif msg[0:6] == "chg_v:":
+                    self.update_zones(msg=msg)
                 elif msg == "1001":
                     self.server.send_message("1001")
                     self.server.kill_server()
@@ -41,11 +43,11 @@ class MainController:
                 break
         
     def update_zones(self, msg):
-        if msg[0:6] == "chg_v:":
-            msg = msg[6:]
-            msg = msg.split(";")
-            self.n_height_zones = msg[0]
-            self.n_width_zones = msg[1]
+        msg = msg[6:]
+        msg = msg.split(";")
+        self.n_height_zones = msg[0]
+        self.n_width_zones = msg[1]
+        if self.verbose: print(f"Changed zone: hxw: {self.n_height_zones}x{self.n_width_zones}")
     
 
 if __name__ == "__main__":
