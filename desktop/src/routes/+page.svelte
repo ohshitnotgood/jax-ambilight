@@ -56,7 +56,7 @@
     {/if}
 
     {#if isDataReady}
-        <controls class="grid grid-cols-2 gap-x-5 gap-y-2 text-right">
+        <!-- <controls class="grid grid-cols-2 gap-x-5 gap-y-2 text-right">
             <div>Width zones</div>
             <div>
                 <select on:change={onZoneNumberChange}
@@ -80,7 +80,7 @@
                     {/each}
                 </select>
             </div>
-        </controls>
+        </controls> -->
 
         <gradient-control class="block mt-4">
             <input
