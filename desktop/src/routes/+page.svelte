@@ -32,10 +32,10 @@
 
 
     async function onZoneNumberChange() {
-        await invoke(
-            "write_and_wait_for_response_blocking",
-            { message: `chg_v:${nHeightZones};${nWidthZones}`},
-        );
+        // await invoke(
+        //     "write_and_wait_for_response_blocking",
+        //     { message: `chg_v:${nHeightZones};${nWidthZones}`},
+        // );
     }
 
     async function testRunningCommands() {

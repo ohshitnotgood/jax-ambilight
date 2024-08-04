@@ -1,8 +1,17 @@
+import sys
+import os
 from PIL import Image, ImageDraw
 import random
 import jax.numpy as jnp
-from cc_colour import c_colours
 import unittest
+
+# importing from parent directory
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+
+from cc_colour import c_colours
+
 
 def create_test_image(width=2560, height=1440, n_width_zones=8, n_height_zones=4, colours=None):
     test_img = Image.new("RGB", (width, height), (255, 255, 255))
@@ -16,20 +25,24 @@ def create_test_image(width=2560, height=1440, n_width_zones=8, n_height_zones=4
     
     for i in range(0, n_width_zones, 1):
         rect_dims = [i * zone_width, 0, (i + 1) * zone_width, zone_height]
+        print(rect_dims)
         imgd.rectangle(rect_dims, fill=colours[0][i])
         
     
     for i in range(0, n_width_zones, 1):
         rect_dims = [i * zone_width, height - zone_height, (i + 1) * zone_width, height]
+        print(rect_dims)
         imgd.rectangle(rect_dims, fill=colours[1][i])
         
     
     for i in range(0, n_height_zones, 1):
         rect_dims = [0, i * zone_height, zone_width, (i + 1) * zone_height]
+        print(rect_dims)
         imgd.rectangle(rect_dims, fill=colours[2][i])
         
     for i in range(0, n_height_zones, 1):
         rect_dims = [width - zone_width, i * zone_height, width, (i + 1) * zone_height]
+        print(rect_dims)
         imgd.rectangle(rect_dims, fill=colours[3][i])
         
     
