@@ -1,3 +1,4 @@
 mss
 jax[cuda12]
 pillow
+serial
