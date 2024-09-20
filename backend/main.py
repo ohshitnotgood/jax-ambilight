@@ -1,15 +1,17 @@
-import argparse
+import argparse, serial
 from usocket import USocket
 from cc_colour import c_colours
 
 parser = argparse.ArgumentParser(prog="jax_amb_bnd", description="Background task for jax-ambilight")
-parser.add_argument("-v", "--verbose", action="store_true")
+parser.add_argument("-v", "--verbose", action="store_true", help="Prints verbose log messages")
+parser.add_argument("-d", "--device", nargs='?', const=1, type=str, default="/dev/ttyACM0", help="Specify a device location")
+parser.add_argument("-b", "--baudrate", nargs='?', const=1, type=int, default=9600, help="Specify a baudrate for serial communication with the Arduino")
 
 
 class MainController:
     def __init__(self) -> None:
-        self.verbose = False
         self.verbose = parser.parse_args().verbose
+        self.preview = parser.parse_args().preview
         self.server = USocket(verbose=self.verbose)
         self.n_height_zones = 4
         self.n_width_zones = 8
@@ -50,6 +52,36 @@ class MainController:
         if self.verbose: print(f"Changed zone: hxw: {self.n_height_zones}x{self.n_width_zones}")
     
 
+class SerialController:
+    def __init__(self, verbose, device, baud_rate):
+        self.verbose = verbose
+        self.ser = serial.Serial(port=device, baudrate=baud_rate)
+    
+    def main_loop(self):
+        while True:
+            [top, bottom, left, right] = c_colours(3, 4)
+            frame = ""
+            
+            for each in top:
+                for each_subpixel in each:
+                    frame += f"{each_subpixel:03}"
+            for each in bottom:
+                for each_subpixel in each:
+                    frame += f"{each_subpixel:03}"
+            for each in left:
+                for each_subpixel in each:
+                    frame += f"{each_subpixel:03}"
+            for each in right:
+                for each_subpixel in each:
+                    frame += f"{each_subpixel:03}"
+            
+            self.ser.write(frame.encode())
+            ack = self.ser.readline()
+            if ack != "ack":
+                print("An error occurred writing to the microcontroller.")
+
 if __name__ == "__main__":
-    mc = MainController()
-    mc.main_loop()
+    parser.parse_args()
+    # mc = MainController()
+    # mc.main_loop()
+    pass

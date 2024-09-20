@@ -82,6 +82,8 @@ def _convert_brga_array_to_rgb_array(jax_ar, in_color_space="RGB"):
         out.append(col)
         
     return out
+    
+    
 
 if __name__ == "__main__":
-    print(c_colours(4, 8))
+    print(c_colours(3, 4))

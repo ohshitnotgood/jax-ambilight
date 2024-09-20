@@ -1,0 +1,44 @@
+from usocket import USocket
+from cc_colour import c_colours
+
+class PreviewController:
+    def __init__(self) -> None:
+        self.server = USocket(verbose=self.verbose)
+        self.n_height_zones = 4
+        self.n_width_zones = 8
+        
+    def main_loop(self):
+        self.server.wait_for_client()
+        while True:
+            try:
+                msg = self.server.wait_for_incoming_msg()
+                if self.verbose: print(f"Received message {msg}")
+                if msg == "kill_srvr":
+                    self.server.send_message("kill_srvr")
+                    self.server.close_connection()
+                    self.server.wait_for_client()
+                elif msg[0:6] == "chg_v:":
+                    self.update_zones(msg=msg)
+                elif msg == "1001":
+                    self.server.send_message("1001")
+                    self.server.kill_server()
+                    break
+                elif msg == "ack_ok":
+                    screen_colours = c_colours(n_height_zones=4, n_width_zones=8)
+                    self.server.send_message(str(screen_colours).encode())
+                else:
+                    self.server.send_message(msg)
+            except BrokenPipeError:
+                self.server.close_connection()
+                self.server.wait_for_client()
+            except KeyboardInterrupt:
+                self.server.kill_server()
+                break
+        
+    def update_zones(self, msg):
+        msg = msg[6:]
+        msg = msg.split(";")
+        self.n_height_zones = msg[0]
+        self.n_width_zones = msg[1]
+        if self.verbose: print(f"Changed zone: hxw: {self.n_height_zones}x{self.n_width_zones}")
+    
