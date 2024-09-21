@@ -8,6 +8,7 @@ parser.add_argument("-d", "--device", nargs='?', const=1, type=str, default="/de
 parser.add_argument("-b", "--baudrate", nargs='?', const=1, type=int, default=9600, help="Specify a baudrate for serial communication with the Arduino")
 
 
+
 class MainController:
     def __init__(self) -> None:
         self.verbose = parser.parse_args().verbose
@@ -75,13 +76,20 @@ class SerialController:
                 for each_subpixel in each:
                     frame += f"{each_subpixel:03}"
             
-            self.ser.write(frame.encode())
-            ack = self.ser.readline()
-            if ack != "ack":
-                print("An error occurred writing to the microcontroller.")
+            self.ser.write((frame + "\n").encode())
+            while self.ser.in_waiting:
+                ack = self.ser.read_until(size=3).decode()
+                if ack != "ack":
+                    print("An error occurred writing to the microcontroller.")
+                else: print("Receiving acknowledgement sending another frame")
 
 if __name__ == "__main__":
     parser.parse_args()
+    verbose = parser.parse_args().verbose
+    device = parser.parse_args().device
+    baudrate = parser.parse_args().baudrate
+    ser_con = SerialController(verbose=verbose, device=device, baud_rate=baudrate)
+    ser_con.main_loop()
     # mc = MainController()
     # mc.main_loop()
     pass

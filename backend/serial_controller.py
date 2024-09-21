@@ -11,7 +11,7 @@ class SerialController:
     
     
 if __name__ == "__main__":
-    # ser = serial.Serial("/dev/ttyACM0", baudrate=9600)
+    ser = serial.Serial("/dev/ttyACM0", baudrate=9600)
     [top, bottom, left, right] = c_colours(3, 4)
     frame = ""
     
@@ -29,4 +29,8 @@ if __name__ == "__main__":
             frame += f"{each_subpixel:03}"
     
     print(frame)
-    # ser.write(frame.encode())
+    ser.write(frame.encode())
+    ack = str(ser.read_until(size=3).decode())
+    if ack == 'ack':
+        print("aok")
+    else: print("nok", ack)

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define NUM_LEDS 2
+#define NUM_LEDS 14
 #define BAUD_RATE 9600
 #define DATA_PIN 13
 #define NUM_ZONES 14
@@ -32,12 +32,26 @@ void read_next_frame();
 void show_leds();
 void update_leds();
 void update_led_strip_zones();
+void acknowledge_success();
 
 void setup()
 {
-    FastLED.addLeds<WS2812, DATA_PIN>(leds, 2);
+    FastLED.addLeds<WS2812, DATA_PIN>(leds, NUM_LEDS);
     leds[0] = CRGB(0, 255, 0);
     leds[1] = CRGB(255, 0, 0); // GRB
+    leds[2] = CRGB(255, 0, 0); // GRB
+    leds[3] = CRGB(255, 0, 0); // GRB
+    leds[4] = CRGB(255, 0, 0); // GRB
+    leds[5] = CRGB(255, 0, 0); // GRB
+    leds[6] = CRGB(255, 0, 0); // GRB
+    leds[7] = CRGB(255, 0, 0); // GRB
+    leds[8] = CRGB(255, 0, 0); // GRB
+    leds[9] = CRGB(255, 0, 0); // GRB
+    leds[10] = CRGB(255, 0, 0); // GRB
+    leds[11] = CRGB(255, 0, 0); // GRB
+    leds[12] = CRGB(255, 0, 0); // GRB
+    leds[13] = CRGB(255, 0, 0); // GRB
+
     FastLED.show();
     Serial.begin(BAUD_RATE);
 }
@@ -49,21 +63,31 @@ void loop()
         read_next_frame();
         update_leds();
         show_leds();
+        acknowledge_success();
     }
+}
+
+void acknowledge_success()
+{
+    Serial.write("ack\n");
 }
 
 void update_leds() 
 {
     leds[0] = zone_zero;
     leds[1] = zone_one;
-    // leds[2] = zone_two;
-    // leds[3] = zone_three;
-    // leds[4] = zone_four;
-    // leds[5] = zone_five;
-    // leds[6] = zone_six;
-    // leds[7] = zone_seven;
-    // leds[8] = zone_eight;
-    // leds[9] = zone_nine;
+    leds[2] = zone_two;
+    leds[3] = zone_three;
+    leds[4] = zone_four;
+    leds[5] = zone_five;
+    leds[6] = zone_six;
+    leds[7] = zone_seven;
+    leds[8] = zone_eight;
+    leds[9] = zone_nine;
+    leds[10] = zone_ten;
+    leds[11] = zone_eleven;
+    leds[12] = zone_twelve;
+    leds[13] = zone_thirteen;
 }
 
 void show_leds() {
@@ -74,7 +98,9 @@ void read_next_frame()
 {
     if (Serial.available() > 0)
     {
-        String next_frame = Serial.readString();
+        // Serial.println("Data is now available\n");
+        // String next_frame = Serial.readString();
+        String next_frame = Serial.readStringUntil(';');
 
         zone_zero = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
         next_frame.remove(0, 9);
