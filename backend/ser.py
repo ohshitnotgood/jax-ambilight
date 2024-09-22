@@ -1,4 +1,4 @@
-import serial, argparse, time
+import serial, argparse, time, random
 from cc_colour import c_colours
 
 parser = argparse.ArgumentParser(prog="jax_amb_bnd", description="Background task for jax-ambilight")
@@ -6,6 +6,7 @@ parser.add_argument("-v", "--verbose", action="store_true", help="Prints verbose
 parser.add_argument("-d", "--device", nargs='?', const=1, type=str, default="/dev/ttyACM0", help="Specify a device location")
 parser.add_argument("-b", "--baudrate", nargs='?', const=1, type=int, default=9600, help="Specify a baudrate for serial communication with the Arduino")
 
+rand_colors = ['000000255', '000255000', '255000000']
 
 class SerialController:
     def __init__(self, verbose, device, baud_rate):
@@ -17,26 +18,30 @@ class SerialController:
             ack = ""
             [top, bottom, left, right] = c_colours(3, 4)
             frame = ""
-            
+            rand_c = random.choice(rand_colors)
             for each in top:
-                for each_subpixel in each:
-                    frame += f"{each_subpixel:03}"
+                frame += rand_c
+                # for each_subpixel in each:
+                #     frame += f"{each_subpixel:03}"
             for each in bottom:
-                for each_subpixel in each:
-                    frame += f"{each_subpixel:03}"
+                frame += rand_c
+                # for each_subpixel in each:
+                #     frame += f"{each_subpixel:03}"
             for each in left:
-                for each_subpixel in each:
-                    frame += f"{each_subpixel:03}"
+                frame += rand_c
+                # for each_subpixel in each:
+                #     frame += f"{each_subpixel:03}"
             for each in right:
-                for each_subpixel in each:
-                    frame += f"{each_subpixel:03}"
+                frame += rand_c
+                # for each_subpixel in each:
+                #     frame += f"{each_subpixel:03}"
             
             self.ser.write((frame + ";").encode())
-            # while ack != "ack":
-            #     ack = self.ser.read_until(size=3).decode()
+            while ack != "ack":
+                ack = self.ser.read_until(size=3).decode()
+                print("waiting for acknowledgement")
                 
             print(frame, "sending another frame")
-            time.sleep(1)
             
 
 if __name__ == "__main__":

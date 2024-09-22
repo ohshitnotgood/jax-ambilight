@@ -69,7 +69,7 @@ void loop()
 
 void acknowledge_success()
 {
-    Serial.write("ack\n");
+    Serial.write("ack");
 }
 
 void update_leds() 
@@ -98,8 +98,6 @@ void read_next_frame()
 {
     if (Serial.available() > 0)
     {
-        // Serial.println("Data is now available\n");
-        // String next_frame = Serial.readString();
         String next_frame = Serial.readStringUntil(';');
 
         zone_zero = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
@@ -143,37 +141,6 @@ void read_next_frame()
         
         zone_thirteen = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
         next_frame.remove(0, 9);
-        
-        // zone_fourteen = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
-        // zone_fifteen = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
-        // zone_sixteen = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
-        // zone_seventeen = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
-        // zone_eighteen = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
-        // zone_nineteen = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
-        // zone_twenty = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
-        // zone_twentyone = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
-        // zone_twentytwo = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
-        // zone_twentythree = CRGB(next_frame.substring(3, 6).toInt(), next_frame.substring(0, 3).toInt(), next_frame.substring(6, 9).toInt());
-        // next_frame.remove(0, 9);
-        
     }
 }
 
