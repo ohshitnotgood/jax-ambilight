@@ -12,25 +12,7 @@ class SerialController:
     
 if __name__ == "__main__":
     ser = serial.Serial("/dev/ttyACM0", baudrate=9600)
-    [top, bottom, left, right] = c_colours(3, 4)
-    frame = ""
+    while True:
+        to_write = input()
+        ser.write((to_write*14 + ";").encode())
     
-    for each in top:
-        for each_subpixel in each:
-            frame += f"{each_subpixel:03}"
-    for each in bottom:
-        for each_subpixel in each:
-            frame += f"{each_subpixel:03}"
-    for each in left:
-        for each_subpixel in each:
-            frame += f"{each_subpixel:03}"
-    for each in right:
-        for each_subpixel in each:
-            frame += f"{each_subpixel:03}"
-    
-    print(frame)
-    ser.write(frame.encode())
-    ack = str(ser.read_until(size=3).decode())
-    if ack == 'ack':
-        print("aok")
-    else: print("nok", ack)

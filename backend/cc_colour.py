@@ -69,7 +69,17 @@ def c_colours(n_height_zones: int, n_width_zones: int, inp_img=None, monitor_nr=
     
     return [rgb_top, rgb_bottom, rgb_left, rgb_right]
     
-    
+
+def _convert_brga_array_to_ycrcb_array(jax_ar):
+    y_const = jnp.array([0.299, 0.587, 0.144])
+    u_const = jnp.array([-0.14713, -0.28886, 0.436])
+    v_const = jnp.array([0.615, -0.51499, -0.10001])
+    y = jnp.dot(jax_ar, y_const)
+    u = jnp.dot(jax_ar, u_const)
+    v = jnp.dot(jax_ar, v_const)
+    return jnp.array([y, u, v])
+
+
 def _convert_brga_array_to_rgb_array(jax_ar, in_color_space="RGB"):
     """
     Converts BGRA array and returns either an RGB or BRG array.
@@ -77,8 +87,8 @@ def _convert_brga_array_to_rgb_array(jax_ar, in_color_space="RGB"):
     out = []
     
     for each in jax_ar:
-        if in_color_space == "RGB": col = (int(each[1]), int(each[2]), int(each[0]))
-        else: col = (int(each[0]), int(each[1]), int(each[2]))
+        if in_color_space == "RGB": col = [int(each[1]), int(each[2]), int(each[0])]
+        else: col = [int(each[0]), int(each[1]), int(each[2])]
         out.append(col)
         
     return out
@@ -87,3 +97,6 @@ def _convert_brga_array_to_rgb_array(jax_ar, in_color_space="RGB"):
 
 if __name__ == "__main__":
     print(c_colours(3, 4))
+    # test_ar = jnp.array([[[61, 49, 47], [62, 50, 48], [59, 47, 45]], [[78, 60, 57], [76, 58, 55], [72, 55, 52]], [[61, 49, 47], [64, 48, 46], [69, 52, 50]], [[58, 46, 44], [69, 52, 49], [72, 55, 52]]])
+    test_ar = jnp.array([61, 49, 47])
+    print(_convert_brga_array_to_ycrcb_array(test_ar))

@@ -37,20 +37,20 @@ void acknowledge_success();
 void setup()
 {
     FastLED.addLeds<WS2812, DATA_PIN>(leds, NUM_LEDS);
-    leds[0] = CRGB(0, 255, 0);
-    leds[1] = CRGB(255, 0, 0); // GRB
-    leds[2] = CRGB(255, 0, 0); // GRB
-    leds[3] = CRGB(255, 0, 0); // GRB
-    leds[4] = CRGB(255, 0, 0); // GRB
-    leds[5] = CRGB(255, 0, 0); // GRB
-    leds[6] = CRGB(255, 0, 0); // GRB
-    leds[7] = CRGB(255, 0, 0); // GRB
-    leds[8] = CRGB(255, 0, 0); // GRB
-    leds[9] = CRGB(255, 0, 0); // GRB
-    leds[10] = CRGB(255, 0, 0); // GRB
-    leds[11] = CRGB(255, 0, 0); // GRB
-    leds[12] = CRGB(255, 0, 0); // GRB
-    leds[13] = CRGB(255, 0, 0); // GRB
+    // leds[0] = CRGB(9, 0, 100);
+    // leds[1] = CRGB(9, 0, 100); // GRB
+    // leds[2] = CRGB(186, 252, 3); // GRB
+    // leds[3] = CRGB(186, 252, 3); // GRB
+    // leds[4] = CRGB(186, 252, 3); // GRB
+    // leds[5] = CRGB(186, 252, 3); // GRB
+    // leds[6] = CRGB(186, 252, 3); // GRB
+    // leds[7] = CRGB(186, 252, 3); // GRB
+    // leds[8] = CRGB(186, 252, 3); // GRB
+    // leds[9] = CRGB(186, 252, 3); // GRB
+    // leds[10] = CRGB(186, 252, 3); // GRB
+    // leds[11] = CRGB(186, 252, 3); // GRB
+    // leds[12] = CRGB(186, 252, 3); // GRB
+    // leds[13] = CRGB(186, 252, 3); // GRB
 
     FastLED.show();
     Serial.begin(BAUD_RATE);

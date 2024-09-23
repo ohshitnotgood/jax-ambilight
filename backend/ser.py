@@ -15,33 +15,30 @@ class SerialController:
     
     def main_loop(self):
         while True:
+            start = time.time()
             ack = ""
             [top, bottom, left, right] = c_colours(3, 4)
             frame = ""
             rand_c = random.choice(rand_colors)
             for each in top:
-                frame += rand_c
-                # for each_subpixel in each:
-                #     frame += f"{each_subpixel:03}"
+                for each_subpixel in each:
+                    frame += f"{each_subpixel:03}"
             for each in bottom:
-                frame += rand_c
-                # for each_subpixel in each:
-                #     frame += f"{each_subpixel:03}"
+                for each_subpixel in each:
+                    frame += f"{each_subpixel:03}"
             for each in left:
-                frame += rand_c
-                # for each_subpixel in each:
-                #     frame += f"{each_subpixel:03}"
+                for each_subpixel in each:
+                    frame += f"{each_subpixel:03}"
             for each in right:
-                frame += rand_c
-                # for each_subpixel in each:
-                #     frame += f"{each_subpixel:03}"
+                for each_subpixel in each:
+                    frame += f"{each_subpixel:03}"
             
             self.ser.write((frame + ";").encode())
             while ack != "ack":
                 ack = self.ser.read_until(size=3).decode()
                 print("waiting for acknowledgement")
-                
-            print(frame, "sending another frame")
+            
+            print(frame, "sending another frame", time.time() - start)
             
 
 if __name__ == "__main__":
@@ -51,6 +48,3 @@ if __name__ == "__main__":
     baudrate = parser.parse_args().baudrate
     ser_con = SerialController(verbose=verbose, device=device, baud_rate=baudrate)
     ser_con.main_loop()
-    # mc = MainController()
-    # mc.main_loop()
-    pass
