@@ -2,3 +2,4 @@ mss
 jax[cuda12]
 pillow
 pyserial
+torch[12.4]
