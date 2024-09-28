@@ -1,5 +1,4 @@
 import socket
-import time
 import os
 
 server_addr = "/tmp/jr.sock"

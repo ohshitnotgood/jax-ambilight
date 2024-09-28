@@ -97,6 +97,5 @@ def _convert_brga_array_to_rgb_array(jax_ar, in_color_space="RGB"):
 
 if __name__ == "__main__":
     print(c_colours(3, 4))
-    # test_ar = jnp.array([[[61, 49, 47], [62, 50, 48], [59, 47, 45]], [[78, 60, 57], [76, 58, 55], [72, 55, 52]], [[61, 49, 47], [64, 48, 46], [69, 52, 50]], [[58, 46, 44], [69, 52, 49], [72, 55, 52]]])
     test_ar = jnp.array([61, 49, 47])
     print(_convert_brga_array_to_ycrcb_array(test_ar))

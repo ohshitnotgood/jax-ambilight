@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define NUM_LEDS 14
+#define NUM_LEDS 120
 #define BAUD_RATE 9600
 #define DATA_PIN 13
 #define NUM_ZONES 14
@@ -37,20 +37,20 @@ void acknowledge_success();
 void setup()
 {
     FastLED.addLeds<WS2812, DATA_PIN>(leds, NUM_LEDS);
-    // leds[0] = CRGB(9, 0, 100);
-    // leds[1] = CRGB(9, 0, 100); // GRB
-    // leds[2] = CRGB(186, 252, 3); // GRB
-    // leds[3] = CRGB(186, 252, 3); // GRB
-    // leds[4] = CRGB(186, 252, 3); // GRB
-    // leds[5] = CRGB(186, 252, 3); // GRB
-    // leds[6] = CRGB(186, 252, 3); // GRB
-    // leds[7] = CRGB(186, 252, 3); // GRB
-    // leds[8] = CRGB(186, 252, 3); // GRB
-    // leds[9] = CRGB(186, 252, 3); // GRB
-    // leds[10] = CRGB(186, 252, 3); // GRB
-    // leds[11] = CRGB(186, 252, 3); // GRB
-    // leds[12] = CRGB(186, 252, 3); // GRB
-    // leds[13] = CRGB(186, 252, 3); // GRB
+    leds[0] = CRGB::Red;
+    leds[10] = CRGB::Green; // GRB
+    leds[20] = CRGB::Blue; // GRB
+    leds[30] = CRGB::Red; // GRB
+    leds[40] = CRGB::Green; // GRB
+    leds[50] = CRGB::Red; // GRB
+    leds[60] = CRGB::Blue; // GRB
+    leds[70] = CRGB::Red; // GRB
+    leds[80] = CRGB::Green; // GRB
+    leds[90] = CRGB::Blue; // GRB
+    leds[100] = CRGB::Red;; // GRB
+    leds[110] = CRGB::Green; // GRB
+    leds[120] = CRGB::Red;; // GRB
+    leds[120] = CRGB::Blue; // GRB
 
     FastLED.show();
     Serial.begin(BAUD_RATE);
