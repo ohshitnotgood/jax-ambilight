@@ -18,6 +18,8 @@ class SerialController:
         self.ser = serial.Serial(port=device, baudrate=baud_rate)
     
     def main_loop(self):
+        frame_rate = 0
+        
         while True:
             start = time.time()
             ack = ""
@@ -25,23 +27,33 @@ class SerialController:
             frame = ""
             for each in top:
                 for each_subpixel in each:
-                    frame += f"{each_subpixel:03}"
+                    if each_subpixel == 59:
+                        each_subpixel = 58
+                    frame += chr(each_subpixel)
             for each in bottom:
                 for each_subpixel in each:
-                    frame += f"{each_subpixel:03}"
+                    if each_subpixel == 59:
+                        each_subpixel = 58
+                    frame += chr(each_subpixel)
             for each in left:
                 for each_subpixel in each:
-                    frame += f"{each_subpixel:03}"
+                    if each_subpixel == 59:
+                        each_subpixel = 58
+                    frame += chr(each_subpixel)
             for each in right:
                 for each_subpixel in each:
-                    frame += f"{each_subpixel:03}"
+                    if each_subpixel == 59:
+                        each_subpixel = 58
+                    frame += chr(each_subpixel)
             
             self.ser.write((frame + ";").encode())
             while ack != "ack":
                 ack = self.ser.read_until(size=3).decode()
-                print("waiting for acknowledgement")
+                
+            end = time.time()
+            frame_rate = 1 / (end - start)
             
-            print(frame, "sending another frame", time.time() - start)
+            print(str(frame_rate), end="\r", flush=True)
             
 
 if __name__ == "__main__":
