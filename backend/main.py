@@ -1,8 +1,8 @@
-import serial, argparse, time
+import serial, argparse, time, platform
 from cc_colour import c_colours
 parser = argparse.ArgumentParser(prog="jax_amb_bnd", description="Background task for jax-ambilight")
 parser.add_argument("-v", "--verbose", action="store_true", help="Prints verbose log messages")
-parser.add_argument("-d", "--device", nargs='?', const=1, type=str, default="/dev/ttyACM0", help="Specify a device location")
+parser.add_argument("-d", "--device", nargs='?', const=1, type=str, default="/dev/ttyACM0" if platform.system() == "Linux" else "COM5", help="Specify a device location")
 parser.add_argument("-b", "--baudrate", nargs='?', const=1, type=int, default=9600, help="Specify a baudrate for serial communication with the Arduino")
 
 
