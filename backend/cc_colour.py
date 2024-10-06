@@ -34,13 +34,14 @@ def c_colours(n_height_zones: int, n_width_zones: int, inp_img=None, monitor_nr=
         zone_width = int(width / n_width_zones) 
     
     # Truncate the image for each sections of the screen
-    img_trunc_top = img[slice(0, zone_height)]
-    img_trunc_bottom = img[slice(height - zone_height, height)]
+    
+    img_trunc_top = img[slice(0, 50)]
+    img_trunc_bottom = img[slice(height - 50, height)]
     
     img_swapped = __swapaxes(img, 1, 0)
     
-    img_trunc_left = img_swapped[slice(0, zone_width)]
-    img_trunc_right = img_swapped[slice(width - zone_width, width)]
+    img_trunc_left = img_swapped[slice(0, 50)]
+    img_trunc_right = img_swapped[slice(width - 50, width)]
     
     # Square every value
     img_sqr_top = __square(img_trunc_top)
@@ -94,6 +95,7 @@ def c_colours(n_height_zones: int, n_width_zones: int, inp_img=None, monitor_nr=
         
     # for i, each in enumerate(rgb_right):
     #     rgb_right[i] = __get_closest_matching_color(each)
+    
     
     return [rgb_top, rgb_bottom, rgb_left, rgb_right]
     

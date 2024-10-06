@@ -46,7 +46,7 @@ class SerialController:
                         each_subpixel = 58
                     frame += chr(each_subpixel)
             
-            self.ser.write((frame + ";").encode())
+            self.ser.write((frame + ";").encode("latin-1"))
             while ack != "ack":
                 ack = self.ser.read_until(size=3).decode()
                 

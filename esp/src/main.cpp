@@ -82,23 +82,38 @@ void show_leds()
 void read_next_frame()
 {
     String next_frame = Serial.readStringUntil(';');
-    
-    // if (next_frame == old_frame) {
-    //     return;
-    // } else {
-    //     old_frame = next_frame;
-    // }
 
-    zone_thirteen = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    zone_six = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
     next_frame.remove(0, 3);
 
-    zone_twelve = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    zone_five = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    next_frame.remove(0, 3);
+
+    zone_four = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    next_frame.remove(0, 3);
+
+    zone_three = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    next_frame.remove(0, 3);
+
+    zone_ten = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
     next_frame.remove(0, 3);
 
     zone_eleven = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
     next_frame.remove(0, 3);
 
-    zone_three = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    zone_twelve = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    next_frame.remove(0, 3);
+
+    zone_thirteen = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    next_frame.remove(0, 3);
+
+    zone_seven = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    next_frame.remove(0, 3);
+
+    zone_eight = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
+    next_frame.remove(0, 3);
+
+    zone_nine = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
     next_frame.remove(0, 3);
 
     zone_two = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
@@ -108,27 +123,6 @@ void read_next_frame()
     next_frame.remove(0, 3);
 
     zone_zero = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
-    next_frame.remove(0, 3);
-
-    zone_eight = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
-    next_frame.remove(0, 3);
-
-    zone_nine = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
-    next_frame.remove(0, 3);
-
-    zone_ten = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
-    next_frame.remove(0, 3);
-
-    zone_four = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
-    next_frame.remove(0, 3);
-
-    zone_five = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
-    next_frame.remove(0, 3);
-
-    zone_six = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
-    next_frame.remove(0, 3);
-
-    zone_seven = CRGB((int)next_frame.charAt(1), (int)next_frame.charAt(0), (int)next_frame.charAt(2));
     next_frame.remove(0, 3);
 }
 
