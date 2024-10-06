@@ -1,20 +1,22 @@
-import mss
-import jax.numpy as jnp
-from PIL import Image
-import numpy as np
+import cv2
+import dxcam
 import torch
 
-sct = mss.mss()
+print(dxcam.device_info())
+camera = dxcam.create()
 
+# Start capturing frames
+camera.start()
 
-monitor = sct.monitors[0]
-sct_img = sct.grab(monitor)
+while True:
+    # Get the latest captured frame from the camera
+    frame = camera.get_latest_frame()
+    g = torch.tensor(frame)
+    print(frame.shape)
+    print(g.shape)
 
-im = torch.tensor(np.array(sct_img))
+# Stop capturing when done
+camera.stop()
 
-img = im[:,:,:3]
-img = img.flip(2)
-img = torch.swapaxes(img, 1, 0)
-pilimage = Image.fromarray(np.array(img))
-pilimage.save("out.png")
-# print(img.shape)
+# Close OpenCV windows
+cv2.destroyAllWindows()

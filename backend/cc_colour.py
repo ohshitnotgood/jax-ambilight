@@ -1,30 +1,41 @@
-import mss
 import numpy as onp
 import torch
+import platform
 
-sct = mss.mss()
+is_linux = platform.system() == "Linux"
+
+if is_linux: import mss
+else: import dxcam
+
+
+
+if is_linux: 
+    sct = mss.mss()
+else: 
+    camera = dxcam.create()
+    camera.start()
+
+
 n_colour_channels = 3
 
-def c_colours(n_height_zones: int, n_width_zones: int, inp_img=None, monitor_nr=0, in_colour_space="RGB"):    
+def c_colours(n_height_zones: int, n_width_zones: int, inp_img=None, monitor_nr=0, in_colour_space="RGB" if is_linux else ""):    
     if inp_img == None:
-        monitor = sct.monitors[monitor_nr]
-        sct_img = sct.grab(monitor)
-            
-        # width of the screen in pixels
-        width = sct_img.size.width
-            
-        # height of the screen in pixels
-        height = sct_img.size.height      
-        
-        # height of each zone
-        zone_height = int(height / n_height_zones)                 
-        
-        # width of each zone
-        zone_width = int(width / n_width_zones)    
-        
-        img_brga = __array(sct_img)
-        
-        img = img_brga[:,:,:3]
+        if is_linux:
+            monitor = sct.monitors[monitor_nr]
+            sct_img = sct.grab(monitor)
+            width = sct_img.size.width
+            height = sct_img.size.height      
+            zone_height = int(height / n_height_zones)                 
+            zone_width = int(width / n_width_zones)    
+            img_brga = __array(sct_img)
+            img = img_brga[:,:,:3]
+        else:
+            sct_img = camera.get_latest_frame()
+            img = __array(sct_img)
+            width = img.shape[1]
+            height = img.shape[0]      
+            zone_height = int(height / n_height_zones)                 
+            zone_width = int(width / n_width_zones)    
     else: 
         img = inp_img
         height = img.shape[0]
